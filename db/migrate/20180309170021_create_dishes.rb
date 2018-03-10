@@ -3,7 +3,7 @@ class CreateDishes < ActiveRecord::Migration[5.1]
     create_table :dishes do |t|
       t.string :name, null: false
       t.decimal :price
-      t.text :category
+      t.text :category, array: true, default: []
       t.timestamps
     end
   end

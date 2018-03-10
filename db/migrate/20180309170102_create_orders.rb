@@ -5,7 +5,7 @@ class CreateOrders < ActiveRecord::Migration[5.1]
       t.integer :dish_id
       t.integer :restaurant_id
       t.integer :quantity
-      t.integer :orderNum
+      t.integer :orderNum, default: 0
       t.timestamps
     end
   end

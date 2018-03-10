@@ -1,5 +1,6 @@
 class Dish < ApplicationRecord
-    has_many :menus
+    has_many :menu_dishes
+    has_many :menus, through: :menu_dishes
     has_many :restaurants, through: :menus
     has_many :orders
     has_many :users, through: :orders

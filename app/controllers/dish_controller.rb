@@ -19,6 +19,12 @@ class DishController < ApplicationController
         id = params[:id]
         render(status: 201, json: Dish.find(id))
     end 
+
+    private 
+
+    def dish_params 
+        params.require(:dish).permit(:name, :price, :category)
+
 end
 
 

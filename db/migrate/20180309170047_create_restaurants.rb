@@ -2,7 +2,7 @@ class CreateRestaurants < ActiveRecord::Migration[5.1]
   def change
     create_table :restaurants do |t|
       t.string :name, null: false
-      t.text :category
+      t.text :category, array: true, default: []
       t.string :address
       t.float :latitude
       t.float :longitude

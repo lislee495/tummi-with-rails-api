@@ -4,6 +4,6 @@ Rails.application.routes.draw do
     resources :dishes
     resources :users
     resources :restaurants 
-    get "/restaurants/:id/menu", to "restaurants#menu"
+    get "/restaurants/:id/menu", to: "restaurants#menu"
   end
 end
