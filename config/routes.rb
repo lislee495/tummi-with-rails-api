@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   scope '/api' do
     resources :dishes
     resources :users
-    resources :restaurants
-
+    resources :restaurants 
+    get "/restaurants/:id/menu", to "restaurants#menu"
   end
 end
