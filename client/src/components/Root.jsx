@@ -15,9 +15,8 @@ import RestaurantMenu from './restaurant/RestaurantMenu'
 import RestaurantList from './restaurant/RestaurantList'
 import Alert from 'react-s-alert';
 import $ from 'jquery';
-window.jQuery = window.$ = $;
 import { fetchCurrentUser} from '../redux';
-
+window.jQuery = window.$ = $;
 // remove tap delay, essential for MaterialUI to work properly
 injectTapEventPlugin();
 

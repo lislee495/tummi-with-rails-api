@@ -5,5 +5,7 @@ Rails.application.routes.draw do
     resources :users
     resources :restaurants 
     get "/restaurants/:id/menu", to: "restaurants#menu"
+    put "/login" to: "users#login"
+    post "/signup" to: "users#signup"
   end
 end
