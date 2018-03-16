@@ -27,27 +27,28 @@ export default function reducer (currentUser = {}, action) {
 /* ------------       THUNK CREATORS     ------------------ */
 
 export const login = (credentials, history) => dispatch => {
-  axios.put('/auth/local/login', credentials)
+  axios.post('/api/login', {user: credentials})
     .then(res => setUserAndRedirect(res.data, history, dispatch))
     .catch(err => console.error(`Logging in with ${credentials.email} and ${credentials.password} was unsuccesful`, err));
 };
 
 export const logout = history => dispatch => {
-  axios.delete('/auth/local/logout')
+  axios.delete('/api/logout')
     .then(res => dispatch(removeCurrentUser(res.data)))
     .then(() => history.push('/'))
     .catch(err => console.error('Logging out was unsuccesful', err));
 };
 
 export const signup = (credentials, history) => dispatch => {
-  axios.post('/auth/local/signup', credentials)
+  console.log({user: credentials})
+  axios.post('/api/signup', {user: credentials})
     .then(res => setUserAndRedirect(res.data, history, dispatch))
     .catch(err => console.error(`Signing up with ${credentials.email} and ${credentials.password} was unsuccesful`, err));
 };
 
 
 export const fetchCurrentUser = () => dispatch => {
-  axios.get('/auth/local')
+  axios.get('/api/current_user')
     .then(res => dispatch(setCurrentUser(res.data)))
     .catch(err => console.error('Fetching current user failed', err));
 };
