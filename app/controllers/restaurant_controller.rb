@@ -4,11 +4,10 @@ class RestaurantController < ApplicationController
         render(status: 201, json: Restaurant.find(id))
     end
 
-    def create 
-        category = restaurant_params.category
-        location = restaurant_params.location 
-
-    end 
+    # def create 
+    #     category = restaurant_params.category
+    #     location = restaurant_params.location 
+    # end 
 
     def menu 
         id = params[:id]

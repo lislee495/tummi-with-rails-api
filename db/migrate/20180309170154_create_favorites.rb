@@ -4,7 +4,6 @@ class CreateFavorites < ActiveRecord::Migration[5.1]
       t.integer :user_id
       t.integer :dish_id
       t.integer :restaurant_id
-      t.timestamps
     end
   end
 end
