@@ -27,6 +27,7 @@ export default function reducer (currentUser = {}, action) {
 /* ------------       THUNK CREATORS     ------------------ */
 
 export const login = (credentials, history) => dispatch => {
+  
   axios.post('/api/login', {user: credentials})
     .then(res => setUserAndRedirect(res.data, history, dispatch))
     .catch(err => console.error(`Logging in with ${credentials.email} and ${credentials.password} was unsuccesful`, err));
@@ -40,7 +41,9 @@ export const logout = history => dispatch => {
 };
 
 export const signup = (credentials, history) => dispatch => {
-  console.log({user: credentials})
+  // $.ajax({ url: '/api/signup', 
+  // type: 'POST', 
+  // data: { user: } }, success: (response) => { console.log('it worked!', response); } });
   axios.post('/api/signup', {user: credentials})
     .then(res => setUserAndRedirect(res.data, history, dispatch))
     .catch(err => console.error(`Signing up with ${credentials.email} and ${credentials.password} was unsuccesful`, err));
