@@ -45,7 +45,7 @@ const mapDispatchToProps = function (dispatch, ownProps) {
     handleSubmit (category, location, evt) {
       evt.preventDefault();
       dispatch(searchRestaurants({ category: category, location: location }));
-      dispatch(searchMenus({ category: category, location: location }));
+      // dispatch(searchMenus({ category: category, location: location }));
       dispatch(searchCategory(''));
       dispatch(searchLocation(''));
       ownProps.history.push('/')

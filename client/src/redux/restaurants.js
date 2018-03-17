@@ -93,25 +93,48 @@ export const fetchMenu = (id) => dispatch => {
   })
 }
 
-export const searchMenus = (searchTerms) => dispatch => {
-  const {category, location} = searchTerms
-  axios.get(`https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search?cuisine=${category}&instructionsRequired=false&number=20`, {
-    headers: {
-      "X-Mashape-Key": config.MASHAPE_KEY,
-      "X-Mashape-Host": "spoonacular-recipe-food-nutrition-v1.p.mashape.com"
-    }
-  }).then(res =>
-    {return Promise.map(res.data.results, function(dish) {
-      return axios.post('/api/dishes', {dish: dish, category: category.toLowerCase()})
-    })
-    }).then(res => res.map(ele => ele.data))
-    .then(dishes => dispatch(getDishes(dishes)))
-}
+// export const searchMenus = (searchTerms) => dispatch => {
+//   const {category, location} = searchTerms
+//   axios.get(`https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search?cuisine=${category}&instructionsRequired=false&number=20`, {
+//     headers: {
+//       "X-Mashape-Key": config.MASHAPE_KEY,
+//       "X-Mashape-Host": "spoonacular-recipe-food-nutrition-v1.p.mashape.com"
+//     }
+//   }).then(res =>
+//     {return Promise.map(res.data.results, function(dish) {
+//       return axios.post('/api/dishes', {dish: dish, category: category.toLowerCase()})
+//     })
+//     }).then(res => res.map(ele => ele.data))
+//     .then(dishes => dispatch(getDishes(dishes)))
+// }
 
 export const searchRestaurants = (searchTerms, history) => dispatch => {
-  
-  axios.post('/api/restaurants', searchTerms)
-  .then(restaurants => dispatch(foundRestaurants(restaurants.data)))
+   
+  const {category, location} = searchTerms 
+  const newLoc = location.split(" ").join("+")
+  axios.get(`https://api.yelp.com/v3/businesses/search?term=food+${category}&location=${newLoc}`, {
+    headers: {"Authorization": "Bearer " + config.YELP_API_KEY}
+  })
+  .then(result => {
+    return Promise.map(result.data.businesses, (restaurant) => {
+      const info = {
+        name: restaurant.name,
+        category: [category.toLowerCase(), restaurant.categories[0].title],
+        yelp_url: restaurant.id,
+        address: `${restaurant.location.address1}, ${restaurant.location.city}, ${restaurant.location.state} ${restaurant.location.zip_code}` ,
+        latitude: restaurant.coordinates.latitude,
+        longitude: restaurant.coordinates.longitude,
+        price_range: restaurant.price,
+        url: restaurant.url,
+        featured_image: restaurant.image_url,
+        user_rating: restaurant.rating,
+        votes: restaurant.review_count,
+        phone_numbers: restaurant.display_phone,
+        transactions: restaurant.transactions
+      }
+      return axios.post('/api/restaurants', info)
+    })
+  })
+  .then(restaurants => dispatch(foundRestaurants(restaurants.map(restaurant.data))))
   .then(()=> dispatch(resetRestaurauntIndex()))
-
 }
