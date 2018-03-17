@@ -109,12 +109,8 @@ export const fetchMenu = (id) => dispatch => {
 // }
 
 export const searchRestaurants = (searchTerms, history) => dispatch => {
-   
   const {category, location} = searchTerms 
-  const newLoc = location.split(" ").join("+")
-  axios.get(`https://api.yelp.com/v3/businesses/search?term=food+${category}&location=${newLoc}`, {
-    headers: {"Authorization": "Bearer " + config.YELP_API_KEY}
-  })
+  axios.post('/api/restaurants/yelp', {restaurant: {category: category, location: location}})
   .then(result => {
     return Promise.map(result.data.businesses, (restaurant) => {
       const info = {
@@ -135,6 +131,6 @@ export const searchRestaurants = (searchTerms, history) => dispatch => {
       return axios.post('/api/restaurants', info)
     })
   })
-  .then(restaurants => dispatch(foundRestaurants(restaurants.map(restaurant.data))))
+  .then(restaurants => dispatch(foundRestaurants(restaurants.map(restaurant => restaurant.data))))
   .then(()=> dispatch(resetRestaurauntIndex()))
 }
