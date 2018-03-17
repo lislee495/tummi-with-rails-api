@@ -109,6 +109,7 @@ export const searchMenus = (searchTerms) => dispatch => {
 }
 
 export const searchRestaurants = (searchTerms, history) => dispatch => {
+  
   axios.post('/api/restaurants', searchTerms)
   .then(restaurants => dispatch(foundRestaurants(restaurants.data)))
   .then(()=> dispatch(resetRestaurauntIndex()))

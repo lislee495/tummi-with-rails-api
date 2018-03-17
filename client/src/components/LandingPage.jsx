@@ -41,7 +41,7 @@ export default class LandingPage extends React.Component {
           <br/>
           with 
           <br/>
-          <img src="/images/flatiron-logo.png" className="flatiron-logo"/>
+          <img src="../images/flatiron-logo.png" className="flatiron-logo"/>
           </div>
         </div>
       </div>

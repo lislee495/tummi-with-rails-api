@@ -34,7 +34,7 @@ class Root extends Component {
 		return (
 	    <Router>
 				<div id="main" className="container-fluid">
-          {currentUser.id ?
+          {currentUser ?
              (
               <div className="logged-in">
                 <Navbar/>
@@ -44,7 +44,7 @@ class Root extends Component {
                   <Switch>
                     <Route path="/restaurants/:id/menu" component={RestaurantMenu} />
                     <Route path="/restaurants/:id" component={RestaurantPage} />
-                    <Route exact path="/trends" component={TrendsPage} />
+                    {/* <Route exact path="/trends" component={TrendsPage} /> */}
                     <Route exact path="/favorites" component={FavoritesPage} />
                   </Switch>
                   <Alert stack={{limit: 3}} />

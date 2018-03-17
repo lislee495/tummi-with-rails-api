@@ -4,10 +4,14 @@ class RestaurantController < ApplicationController
         render(status: 201, json: Restaurant.find(id))
     end
 
-    # def create 
-    #     category = restaurant_params.category
-    #     location = restaurant_params.location 
-    # end 
+    def create
+        if Restaurant.find_by(yelp_url: restaurant_params[:yelp_url])
+            render(status: 201, json: Restaurant.find_by(yelp_url: restaurant_params[:yelp_url]))
+        else 
+            @restaurant = Restaurant.create(restaurant_params)
+            render(status: 201, json: @restaurant)
+        end 
+    end 
 
     def menu 
         id = params[:id]

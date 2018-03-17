@@ -28,7 +28,7 @@ export default function reducer (currentUser = {}, action) {
 
 export const login = (credentials, history) => dispatch => {
   
-  axios.post('/api/login', {user: credentials})
+  axios.post('/api/login', {session: credentials})
     .then(res => setUserAndRedirect(res.data, history, dispatch))
     .catch(err => console.error(`Logging in with ${credentials.email} and ${credentials.password} was unsuccesful`, err));
 };
@@ -41,9 +41,6 @@ export const logout = history => dispatch => {
 };
 
 export const signup = (credentials, history) => dispatch => {
-  // $.ajax({ url: '/api/signup', 
-  // type: 'POST', 
-  // data: { user: } }, success: (response) => { console.log('it worked!', response); } });
   axios.post('/api/signup', {user: credentials})
     .then(res => setUserAndRedirect(res.data, history, dispatch))
     .catch(err => console.error(`Signing up with ${credentials.email} and ${credentials.password} was unsuccesful`, err));

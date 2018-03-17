@@ -1,11 +1,15 @@
 class UserController < ApplicationController
-    include ActionView::Helpers::SessionsHelper
     def new
         @user = User.create(user_params)
         if @user 
-            # log_in @user 
+            session[:user_id] = user.id
             render(status: 201, json: @user)
         end 
+    end 
+
+    def index 
+        @users = User.all
+        render(status: 201, json: @users)
     end 
 
     def orders 

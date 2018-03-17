@@ -1,21 +1,22 @@
 class SessionsController < ApplicationController
   def create
-    @user = User.find_by(user_params)
-      if @user && @user.authenticate(params[:session][:password])
-          log_in @user
+    @user = User.find_by(session_params)
+      if @user
+          session[:user_id] = @user.id
           render(status: 201, json: @user)
       else 
           render(status: 404)
       end 
   end
 
-  def show 
-    @user = current_user 
+  def curr_user
+    @user = User.find_by(id: session[:user_id])
     render(status: 201, json: @user)
   end 
 
   def destroy 
-    log_out
+    session.delete(:user_id)
+    @current_user = nil
   end 
 
   private
