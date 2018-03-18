@@ -25,16 +25,28 @@ class RestaurantController < ApplicationController
             @menu = dishes.map {|dish| Menu.create(dish: dish, restaurant_id: restaurant.id)}
             render(status: 201, json: @dishes)
         end 
-      end 
-
     end 
+
+
+    def yelp 
+        category = restaurant_params[:searchCat]
+        location = restaurant_params[:searchLoc]
+        new_loc = location.split(" ").join("+")
+        conn = Faraday.new
+        response = conn.get do |req|
+            req.url("https://api.yelp.com/v3/businesses/search?term=food+#{category}&location=#{new_loc}")
+            req.headers['Authorization'] = "Bearer " + Rails.application.secrets[:yelp_key]
+        end
+        @data = JSON.parse(response.body)
+        render(status: 201, json: @data)
+    end
 
     private 
 
     def restaurant_params 
         params.require(:restaurant).permit(:name, :location, :category, :yelp_url, :address, :latitude, :longitude,
-        :price_range, :url, :featured_image, :user_rating, :votes, :phone_numbers, :transactions, dishes: {:category})
-    end 
+        :price_range, :url, :featured_image, :user_rating, :votes, :phone_numbers, :transactions, :searchCat, :searchLoc)
+    end
 end
 
 # router.get('/:id/menu', function (req, res, next) {

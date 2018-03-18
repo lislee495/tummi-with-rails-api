@@ -4,14 +4,15 @@ Rails.application.routes.draw do
     resources :dish
     resources :user
     resources :restaurant
-    get "/restaurants/:id/menu", to: "restaurant#menu"
-    get "/users/:id/favorites", to: "favorite#index"
-    post "/users/:id/favorites", to: "favorite#create"
-    get "/users/:id/orders", to: "order#index"
-    post "/users/:id/orders", to: "order#create"
+    get "/restaurant/:id/menu", to: "restaurant#menu"
+    get "/user/:id/favorites", to: "favorite#index"
+    post "/user/:id/favorites", to: "favorite#create"
+    get "/user/:id/orders", to: "order#index"
+    post "/user/:id/orders", to: "order#create"
     post "/login", to: "sessions#create"
     get "/current_user", to: "sessions#curr_user"
     post "/signup", to: "user#new"
     delete "/logout", to: "sessions#destroy"
+    post "/restaurant/yelp", to: "restaurant#yelp"
   end
 end

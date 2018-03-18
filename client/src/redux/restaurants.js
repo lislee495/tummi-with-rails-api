@@ -110,7 +110,7 @@ export const fetchMenu = (id) => dispatch => {
 
 export const searchRestaurants = (searchTerms, history) => dispatch => {
   const {category, location} = searchTerms 
-  axios.post('/api/restaurants/yelp', {restaurant: {category: category, location: location}})
+  axios.post('/api/restaurant/yelp', {restaurant: {searchCat: category, searchLoc: location}})
   .then(result => {
     return Promise.map(result.data.businesses, (restaurant) => {
       const info = {
@@ -128,7 +128,7 @@ export const searchRestaurants = (searchTerms, history) => dispatch => {
         phone_numbers: restaurant.display_phone,
         transactions: restaurant.transactions
       }
-      return axios.post('/api/restaurants', info)
+      return axios.post('/api/restaurant', info)
     })
   })
   .then(restaurants => dispatch(foundRestaurants(restaurants.map(restaurant => restaurant.data))))
