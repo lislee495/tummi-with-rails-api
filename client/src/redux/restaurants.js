@@ -93,20 +93,20 @@ export const fetchMenu = (id) => dispatch => {
   })
 }
 
-// export const searchMenus = (searchTerms) => dispatch => {
-//   const {category, location} = searchTerms
-//   axios.get(`https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search?cuisine=${category}&instructionsRequired=false&number=20`, {
-//     headers: {
-//       "X-Mashape-Key": config.MASHAPE_KEY,
-//       "X-Mashape-Host": "spoonacular-recipe-food-nutrition-v1.p.mashape.com"
-//     }
-//   }).then(res =>
-//     {return Promise.map(res.data.results, function(dish) {
-//       return axios.post('/api/dishes', {dish: dish, category: category.toLowerCase()})
-//     })
-//     }).then(res => res.map(ele => ele.data))
-//     .then(dishes => dispatch(getDishes(dishes)))
-// }
+export const searchMenus = (searchTerms) => dispatch => {
+  const {category, location} = searchTerms
+  axios.get(`https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search?cuisine=${category}&instructionsRequired=false&number=20`, {
+    headers: {
+      "X-Mashape-Key": config.MASHAPE_KEY,
+      "X-Mashape-Host": "spoonacular-recipe-food-nutrition-v1.p.mashape.com"
+    }
+  }).then(res =>
+    {return Promise.map(res.data.results, function(dish) {
+      return axios.post('/api/dish', {dish: { name: dish.title, category: [category.toLowerCase()]}})
+    })
+    }).then(res => res.map(ele => ele.data))
+    .then(dishes => dispatch(getDishes(dishes)))
+}
 
 export const searchRestaurants = (searchTerms, history) => dispatch => {
   const {category, location} = searchTerms 

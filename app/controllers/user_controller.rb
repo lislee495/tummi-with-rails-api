@@ -2,7 +2,7 @@ class UserController < ApplicationController
     def new
         @user = User.create(user_params)
         if @user 
-            session[:user_id] = user.id
+            session[:user_id] = @user.id
             render(status: 201, json: @user)
         end 
     end 

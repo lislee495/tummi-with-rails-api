@@ -1,13 +1,13 @@
 class DishController < ApplicationController
     def create 
         categoryArray = ["spicy", "gluten-free", "vegan", "dairy-free", "vegetarian", "nut-free"]
-        random = Math.floor(Math.random()*(categoryArray.length + 3))
+        random = rand(categoryArray.length + 3)
         info = {
-            name: request.body.dish.title,
-            price: (Math.random() * (5.00 - 17.00) + 17.00).toFixed(2),
-            category: (random < categoryArray.length) ? (request.body.category + categoryArray[random]) : request.body.category
+            name: dish_params[:name],
+            price: rand(5.00..17.00),
+            category: random < categoryArray.length ? dish_params[:category].push(categoryArray[random]) : dish_params[:category]
         }
-        @dish = Dish.find_by(name: request.body.dish.title)
+        @dish = Dish.find_by(name: dish_params[:name])
         if @dish
             render(status: 201, json: @dish)
         else 
@@ -23,8 +23,8 @@ class DishController < ApplicationController
     private 
 
     def dish_params 
-        params.require(:dish).permit(:name, :price, :category)
-
+        params.require(:dish).permit(:name, :price, category:[])
+    end
 end
 
 
