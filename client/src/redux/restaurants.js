@@ -80,14 +80,14 @@ export const fetchFavorites = (currentUser) => dispatch => {
 }
 
 export const changeRestaurant = (restaurant_id) => dispatch => {
-  axios.get(`/api/restaurants/${restaurant_id}`)
+  axios.get(`/api/restaurant/${restaurant_id}`)
   .then(restaurant => {
     dispatch(setCurrentRestaurant(restaurant.data))
   })
 }
 
 export const fetchMenu = (id) => dispatch => {
-  axios.get(`/api/restaurants/${id}/menu`)
+  axios.get(`/api/restaurant/${id}/menu`)
   .then((menu) => {
     dispatch(getMenu(menu.data))
   })

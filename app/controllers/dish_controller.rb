@@ -4,7 +4,7 @@ class DishController < ApplicationController
         random = rand(categoryArray.length + 3)
         info = {
             name: dish_params[:name],
-            price: rand(5.00..17.00),
+            price: rand(5.00..17.00).round(2),
             category: random < categoryArray.length ? dish_params[:category].push(categoryArray[random]) : dish_params[:category]
         }
         @dish = Dish.find_by(name: dish_params[:name])
