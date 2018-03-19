@@ -26,4 +26,4 @@ To contribute, please create an issue at https://github.com/snickers495/tummi-wi
 ## License
 
 This project has been licensed under the MIT open source license. Visit it at: 
-https://github.com/snickers495/tummi-with-rails-api/LICENSE.md
+https://github.com/snickers495/tummi-with-rails-api/blob/master/LICENSE.md
