@@ -34,9 +34,9 @@ export default function reducer (cart = {
       var dishIndex = cart.dishes.findIndex(ele => ele.dish.id === action.payload.dish.id)
       if (dishIndex > -1) {
         cart.dishes[dishIndex].quantity += 1;
-        return Object.assign({}, cart, {total: cart.total + action.payload.dish.price}) 
+        return Object.assign({}, cart, {total: cart.total + parseFloat(action.payload.dish.price)}) 
       } else {
-      return Object.assign({}, cart, {dishes: [...cart.dishes, action.payload], total: cart.total + action.payload.dish.price})}
+      return Object.assign({}, cart, {dishes: [...cart.dishes, action.payload], total: cart.total + parseFloat(action.payload.dish.price)})}
     case CLEAR_CART:
       return Object.assign({}, cart, {dishes: [], restaurant: {}})
     case SHOW_CART:
@@ -46,7 +46,7 @@ export default function reducer (cart = {
     case REMOVE_ITEM:
       var dishIndex = cart.dishes.findIndex(ele => ele.dish.id === action.dish.id)
       cart.dishes[dishIndex].quantity -= 1; 
-      return Object.assign({}, cart, {dishes: cart.dishes.filter(ele => ele.quantity !== 0), total: cart.total - action.dish.price})
+      return Object.assign({}, cart, {dishes: cart.dishes.filter(ele => ele.quantity !== 0), total: cart.total - parseFloat(action.dish.price)})
     default:
       return cart;
   }
@@ -54,6 +54,11 @@ export default function reducer (cart = {
 
 /* ------------       THUNK CREATORS     ------------------ */
 export const checkoutCart = (terms) => (dispatch) => {
-  axios.post(`/api/users/${terms.currentUser.id}/orders`, {terms})
+  const {currentUser, cart} = terms
+  return Promise.map(cart.dishes, ele => {
+    return axios.post(`/api/user/${currentUser.id}/orders`, {order: {dish_id: ele.dish.id, 
+      restaurant_id: cart.restaurant.id, quantity: ele.quantity
+    }})
+  })
   .then(res => dispatch(clearCart()))
 }

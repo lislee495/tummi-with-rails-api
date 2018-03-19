@@ -17,11 +17,11 @@ class RestaurantController < ApplicationController
         id = params[:id]
         @menu = Menu.find_by(restaurant_id: id)
         if @menu 
-            render(status: 201, json: @menu)
+            render(status: 201, json: @menu.dishes)
         else 
             restaurant = Restaurant.find(id)
             cat = restaurant.category[0]
-            @dishes = Dish.where("'#{cat}' = ANY (category)").limit(10)
+            @dishes = Dish.where("'#{cat}' = ANY (category)").sample(10)
             @menu = Menu.create(restaurant_id: restaurant.id)
             @dishes.each {|dish| @menu.dishes << dish}
             render(status: 201, json: @dishes)

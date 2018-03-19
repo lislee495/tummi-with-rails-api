@@ -6,19 +6,19 @@ class OrderController < ApplicationController
     end
 
     def create 
-        id = params[:current_user_id]
+        id = params[:id]
         user = User.find(id)
-        order = Order.create(user_id: user.id, dish_id: dish_id, restaurant_id: restaurant_id, 
-        quantity: dish_quantity, orderNum: orderNum )
-        render(status: 201, json: order)
+        user.increment(:order_num, 1).save
+        @order = Order.create(user_id: user.id, orderNum: user.order_num, restaurant_id: order_params[:restaurant_id],
+        quantity: order_params[:quantity], dish_id: order_params[:dish_id])
+        render(status: 201, json: @order)
     end 
 
     private 
 
     def order_params
-        params.require(:order).permit(:restaurant_id, :current_user_id, :dish_id, :dish_quantity)
+        params.require(:order).permit(:restaurant_id, :user_id, :dish_id, :quantity, :orderNum)
     end 
-
 end
 
 # router.post('/:id/orders', async(req, res, next) => {
