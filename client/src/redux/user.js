@@ -45,9 +45,13 @@ export default function reducer (user_pref = {
     case ADD_DISLIKE:
       return Object.assign({}, user_pref, {dislike: [...user_pref.dislike, {id: user_pref.dislike.length + 1, text: action.dislike}]})
     case DELETE_LIKE:
-      return Object.assign({}, user_pref, {like: [...user_pref.like].splice(action.likeInd, 1)})
+      var newLike = [...user_pref.like]
+      newLike.splice(action.likeInd, 1)
+      return Object.assign({}, user_pref, {like: newLike})
     case DELETE_DISLIKE:
-      return Object.assign({}, user_pref, {dislike:  [...user_pref.dislike].splice(action.dislikeInd, 1)})
+      var newDislike = [...user_pref.dislike]
+      newDislike.splice(action.dislikeInd, 1)
+      return Object.assign({}, user_pref, {dislike:  newDislike})
     case RESET_PREF:
       return Object.assign({}, user_pref, {like: [], dislike: []})
     case SET_FAVORITES:

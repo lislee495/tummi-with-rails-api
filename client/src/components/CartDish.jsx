@@ -9,7 +9,7 @@ export default function CartDish(props) {
       <span>
         {quantity} {dish.name} | {dish.price * quantity}
         <button className="cart-btn" onClick={()=> removeItem(dish)}>
-        <img src="../images/x.png" className="x-btn" alt="Delete Item"/>
+        <img src={ require("../images/x.png") } className="x-btn" alt="Delete Item"/>
         </button>
       </span>
     </li>

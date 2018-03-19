@@ -1,6 +1,7 @@
 html {
   background-color: #f8f8f8; 
   height: auto;
+  min-height: 100%;
 }
 
 body {
@@ -99,8 +100,8 @@ div.about {
 
 div.about-paragraph {
   width: 20rem;
-  height: 20rem;
-  margin: 10rem auto;
+  height: auto;
+  margin: auto;
   display:inline-block;
   font-size: 1.5rem;
 }

@@ -56,6 +56,10 @@ class RestaurantMenu extends React.Component {
       this.setState({filteredMenu: filteredMenu})
     } else if (this.props.currentRestaurant.id !== nextProps.currentRestaurant.id) {
         this.props.fetchMenu(nextProps.currentRestaurant.id)
+        nextProps.history.push(`/restaurants/${nextProps.currentRestaurant.id}/menu`)
+
+    } else if (this.props.menu[0] !== nextProps.menu[0]) {
+      this.setState({filteredMenu: nextProps.menu})
     }
   }
   render() {
