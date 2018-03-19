@@ -35,7 +35,11 @@ class MenuDiv extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   currentUser: state.currentUser,
-  favoriteDishes: state.restaurants.favorites.filter(ele => ele.restaurant_id === ownProps.restaurant.id)
+  favoriteDishes: state.restaurants.favorites.filter(ele => {
+    if (ele) {
+      return ele.restaurant_id === ownProps.restaurant.id
+    }
+  })
 })
 const mapDispatchToProps = (dispatch)=> ({
   handleClick: (dish, restaurant) => {

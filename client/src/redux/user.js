@@ -16,8 +16,6 @@ const SET_FAVORITES = "SET_FAVORITES"
 const SET_ORDERS = "SET_ORDERS"
 
 
-
-
 // /* ------------     ACTION CREATORS      ------------------ */
 
 export const addLike = like => ({type: ADD_LIKE, like})
@@ -65,26 +63,26 @@ export default function reducer (user_pref = {
 
 
 export const fetchFavoriteDishes = currentUser => dispatch => {
-  axios.get(`/api/users/${currentUser.id}/favorites`)
+  axios.get(`/api/user/${currentUser.id}/favorites`)
   .then(favorites => [...favorites.data].map(ele => ele.dish_id))
   .then(dishIds => Promise.map(dishIds, (dishId)=> {
-    return axios.get(`/api/dishes/${dishId}`)
+    return axios.get(`/api/dish/${dishId}`)
   })).then(result => result.map(ele => ele.data))
   .then(dishes => dispatch(setFavoriteDishes(dishes)))
 }
 
 export const fetchOrders =  currentUser => dispatch => {
   let order = {}
-  axios.get(`/api/users/${currentUser.id}/orders`)
+  axios.get(`/api/user/${currentUser.id}/orders`)
   .then(orders => order.orders = orders.data)
   .then(orderInfo => 
     Promise.map(order.orders.map(ele => ele.dish_id), (dishId)=> {
-        return axios.get(`/api/dishes/${dishId}`)}
+        return axios.get(`/api/dish/${dishId}`)}
       ))
   .then(result => {
     order.dishArray = result.map(dish => dish.data)
     return Promise.map(order.orders.map(ele => ele.restaurant_id), (restaurantId)=> {
-      return axios.get(`/api/restaurants/${restaurantId}`)
+      return axios.get(`/api/restaurant/${restaurantId}`)
     })  
   }).then(restaurantArr => {
     order.restaurantArray = restaurantArr.map(rest => rest.data).filter((thing, index, self) => 

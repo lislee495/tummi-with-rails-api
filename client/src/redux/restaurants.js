@@ -70,12 +70,13 @@ export default function reducer (restaurants = {
 
 /* ------------       THUNK CREATORS     ------------------ */
 export const favoriteDish = (terms) => (dispatch) => {
-  axios.post(`/api/users/${terms.currentUser.id}/favorites`, {terms})
+  const {dish, restaurant, currentUser} = terms 
+  axios.post(`/api/user/${currentUser.id}/favorites`, {favorite: {dish_id: dish.id, restaurant_id: restaurant.id}})
   .then(res => dispatch(getFavorites(res.data)))
 }
 
 export const fetchFavorites = (currentUser) => dispatch => {
-  axios.get(`/api/users/${currentUser.id}/favorites`)
+  axios.get(`/api/user/${currentUser.id}/favorites`)
   .then(favorites => dispatch(getFavorites(favorites.data)))
 }
 
