@@ -64,17 +64,24 @@ export default function reducer (user_pref = {
 
 export const fetchFavoriteDishes = currentUser => dispatch => {
   axios.get(`/api/user/${currentUser.id}/favorites`)
-  .then(favorites => [...favorites.data].map(ele => ele.dish_id))
-  .then(dishIds => Promise.map(dishIds, (dishId)=> {
-    return axios.get(`/api/dish/${dishId}`)
-  })).then(result => result.map(ele => ele.data))
-  .then(dishes => dispatch(setFavoriteDishes(dishes)))
+  .then(favorites => {
+    if (favorites.data[0]) {
+      return Promise.resolve([...favorites.data].map(ele => ele.dish_id))
+      .then(dishIds => Promise.map(dishIds, (dishId)=> {
+        return axios.get(`/api/dish/${dishId}`)
+      })).then(result => result.map(ele => ele.data))
+      .then(dishes => dispatch(setFavoriteDishes(dishes)))
+    }
+  })
 }
 
 export const fetchOrders =  currentUser => dispatch => {
   let order = {}
   axios.get(`/api/user/${currentUser.id}/orders`)
-  .then(orders => order.orders = orders.data)
+  .then(orders => {
+    console.log(orders.data)
+    order.orders = orders.data
+    return order})
   .then(orderInfo => 
     Promise.map(order.orders.map(ele => ele.dish_id), (dishId)=> {
         return axios.get(`/api/dish/${dishId}`)}

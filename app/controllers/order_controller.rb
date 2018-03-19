@@ -1,7 +1,7 @@
 class OrderController < ApplicationController
     def index 
         id = params[:id]
-        orders = Order.find_by(user_id: id)
+        orders = Order.where(user_id: id).all
         render(status: 201, json: orders)
     end
 
@@ -12,7 +12,7 @@ class OrderController < ApplicationController
         @order = Order.create(user_id: user.id, orderNum: user.order_num, restaurant_id: order_params[:restaurant_id],
         quantity: order_params[:quantity], dish_id: order_params[:dish_id])
         render(status: 201, json: @order)
-    end 
+    end
 
     private 
 

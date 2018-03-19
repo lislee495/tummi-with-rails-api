@@ -37,16 +37,18 @@ class FavoritesPage extends React.Component {
                     <h4>Favorites</h4>
                     <hr/>
                     <ul>
-                    {favoriteDishes[0] && favoriteDishes.map(dish => 
-                        <FavoritesDiv dish={dish} key={dish.id}/>
-                    )}
+                    {favoriteDishes[0] ? favoriteDishes.map(dish => 
+                    <FavoritesDiv dish={dish} key={dish.id}/>) :
+                        "No favorites to show!"
+                    }
                     </ul>
                     
                     <h4>Past Orders</h4>
                     <hr/>
                     <ul className="left-align">
-                    {this.state.groupedOrders.length > 0 && this.state.groupedOrders.map(order => 
+                    {this.state.groupedOrders.length > 0 ? this.state.groupedOrders.map(order => 
                         <PastOrdersDiv key={order[0].id} order={order} dishes={orders.dishArray} restaurants={orders.restaurantArray}/>)
+                        : "No orders to show!"
                     }
                     </ul>
                 </div>
